@@ -1,0 +1,40 @@
+# ================================================================
+#  Indian Script OCR System v3.0
+#  requirements.txt
+#
+#  ✅ Python 3.8 – 3.14 compatible
+#  ✅ Windows / macOS / Linux
+#  ✅ No TensorFlow — uses Tesseract OCR
+#  ✅ Latest package versions (March 2026)
+#
+#  INSTALL:
+#    pip install -r requirements.txt
+# ================================================================
+
+# ── Image Processing ─────────────────────────────────────────────
+numpy>=1.26.0
+opencv-python>=4.10.0
+Pillow>=11.0.0
+scikit-image>=0.24.0
+
+# ── OCR Engine ────────────────────────────────────────────────────
+pytesseract>=0.3.13
+
+# ── Web Framework ─────────────────────────────────────────────────
+fastapi>=0.115.6
+uvicorn[standard]>=0.34.0
+python-multipart>=0.0.20
+aiofiles>=24.1.0
+
+# ── Data & Validation ─────────────────────────────────────────────
+pydantic>=2.10.6
+pandas>=2.2.3
+
+# ── Utilities ─────────────────────────────────────────────────────
+loguru>=0.7.3
+python-dotenv>=1.0.1
+
+# ── Optional (Notebooks / Visualization) ──────────────────────────
+# matplotlib>=3.9.0
+# seaborn>=0.13.2
+# jupyter>=1.1.0

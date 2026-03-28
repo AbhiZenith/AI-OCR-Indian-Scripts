@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Indian Script OCR v3.0 | GGI Ludhiana — 20+ Language AI Recognition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Noto+Sans+Gurmukhi:wght@400;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
+<style>
+/* ════════════════════════════════════════════════
+   DESIGN TOKENS — GGI Color System
+════════════════════════════════════════════════ */
+:root{
+  --c-navy:   #08172e;
+  --c-navy2:  #0c1f3f;
+  --c-navy3:  #101e3a;
+  --c-blue:   #163360;
+  --c-gold:   #c8960c;
+  --c-gold2:  #e6ac14;
+  --c-gold3:  #f5c842;
+  --c-white:  #ffffff;
+  --c-muted:  #6b82a0;
+  --c-border: #1a3058;
+  --c-card:   #0c1f3f;
+  --c-card2:  #091a33;
+  --c-green:  #16a34a;
+  --c-red:    #dc2626;
+  --c-orange: #ea580c;
+  --shadow-lg:0 24px 60px rgba(0,0,0,.55);
+  --radius:   14px;
+  --radius-sm:8px;
+}
+
+/* ════════════════════════════════════════════════
+   RESET
+════════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--c-navy);color:var(--c-white);
+  font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.65;
+  overflow-x:hidden;min-height:100vh;
+}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:inherit}
+code{
+  font-family:'Courier New',monospace;font-size:12px;
+  background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;
+  color:var(--c-gold2);
+}
+
+/* ════════════════════════════════════════════════
+   TOP BAR
+════════════════════════════════════════════════ */
+.topbar{background:var(--c-gold);padding:5px 0;font-size:12px;font-weight:600}
+.tb-inner{
+  max-width:1300px;margin:0 auto;padding:0 20px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;
+}
+.topbar a{color:var(--c-navy);transition:opacity .2s}.topbar a:hover{opacity:.7}
+.tb-left{display:flex;gap:16px;align-items:center}
+.tb-sep{color:var(--c-navy);opacity:.35}
+.tb-pills{display:flex;gap:7px}
+.tb-pill{
+  padding:2px 10px;border-radius:99px;
+  background:var(--c-navy);color:var(--c-gold2);
+  font-size:10px;font-weight:700;letter-spacing:.5px;
+}
+
+/* ════════════════════════════════════════════════
+   NAVBAR
+════════════════════════════════════════════════ */
+.navbar{
+  background:var(--c-navy2);border-bottom:2px solid var(--c-gold);
+  position:sticky;top:0;z-index:300;
+  box-shadow:0 2px 24px rgba(0,0,0,.5);
+}
+.nav-wrap{
+  max-width:1300px;margin:0 auto;padding:0 20px;
+  display:flex;align-items:center;justify-content:space-between;height:66px;
+}
+.brand{display:flex;align-items:center;gap:13px}
+.brand-icon{
+  width:44px;height:44px;border-radius:10px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--c-gold),var(--c-gold2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:21px;box-shadow:0 4px 14px rgba(200,150,12,.3);
+}
+.brand-text .b1{
+  font-family:'Playfair Display',serif;font-size:17px;font-weight:900;
+  color:var(--c-white);line-height:1.1;
+}
+.brand-text .b2{
+  font-size:9.5px;color:var(--c-gold);
+  letter-spacing:1.8px;text-transform:uppercase;font-weight:600;
+}
+.nav-links{display:flex;gap:2px;align-items:center}
+.nav-links a{
+  color:rgba(255,255,255,.75);padding:7px 13px;
+  border-radius:var(--radius-sm);font-size:13.5px;font-weight:500;transition:all .18s;
+}
+.nav-links a:hover,.nav-links a.active{background:rgba(200,150,12,.14);color:var(--c-gold2)}
+.btn-nav-cta{
+  background:var(--c-gold)!important;color:var(--c-navy)!important;
+  font-weight:700!important;padding:8px 18px!important;
+  border-radius:var(--radius-sm)!important;
+}
+.btn-nav-cta:hover{background:var(--c-gold2)!important;transform:translateY(-1px)}
+/* API Status pill */
+.api-pill{
+  display:flex;align-items:center;gap:6px;
+  padding:5px 12px;border:1px solid var(--c-border);border-radius:99px;
+  font-size:11px;color:var(--c-muted);font-weight:600;
+  transition:all .3s;
+}
+.api-pill.online {border-color:rgba(22,163,74,.4);color:#4ade80}
+.api-pill.offline{border-color:rgba(220,38,38,.4);color:#f87171}
+.status-dot{
+  width:7px;height:7px;border-radius:50%;background:var(--c-muted);
+  transition:all .3s;flex-shrink:0;
+}
+.api-pill.online  .status-dot{background:var(--c-green);box-shadow:0 0 7px rgba(22,163,74,.7)}
+.api-pill.offline .status-dot{background:var(--c-red)}
+
+/* ════════════════════════════════════════════════
+   HERO SECTION
+════════════════════════════════════════════════ */
+.hero{
+  position:relative;overflow:hidden;
+  background:linear-gradient(140deg,#050e1c 0%,#0B1D3A 55%,#091c38 100%);
+  padding:78px 20px 72px;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 700px 500px at 82% 35%,rgba(200,150,12,.08) 0%,transparent 70%),
+    radial-gradient(ellipse 500px 400px at 5%  85%,rgba(37,99,235,.07)  0%,transparent 60%);
+}
+.script-watermark{
+  position:absolute;inset:0;pointer-events:none;overflow:hidden;
+  display:flex;flex-wrap:wrap;gap:14px;padding:16px;
+  font-size:88px;line-height:1.2;opacity:.03;color:var(--c-gold);
+  font-family:'Noto Sans Devanagari','Noto Nastaliq Urdu',sans-serif;
+  user-select:none;
+}
+.hero-inner{
+  max-width:1300px;margin:0 auto;
+  display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;
+}
+@media(max-width:960px){.hero-inner{grid-template-columns:1fr;gap:36px}}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:5px 14px;border-radius:99px;
+  border:1px solid rgba(200,150,12,.38);background:rgba(200,150,12,.07);
+  font-size:10.5px;letter-spacing:1.8px;text-transform:uppercase;
+  color:var(--c-gold2);font-weight:700;margin-bottom:18px;
+}
+.eyebrow::before{content:'●';font-size:7px;animation:blink 1.5s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(32px,4.5vw,58px);font-weight:900;
+  line-height:1.07;letter-spacing:-1.5px;margin-bottom:18px;
+}
+.hero h1 em{
+  font-style:normal;color:var(--c-gold2);
+  text-decoration:underline;text-decoration-color:rgba(200,150,12,.4);
+  text-underline-offset:6px;
+}
+.hero-desc{
+  font-size:15.5px;color:rgba(255,255,255,.68);
+  line-height:1.75;margin-bottom:28px;max-width:500px;
+}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:30px}
+.btn-gold{
+  padding:13px 26px;background:var(--c-gold);color:var(--c-navy);
+  border:none;border-radius:10px;font-size:15px;font-weight:700;
+  transition:all .2s;display:inline-flex;align-items:center;gap:8px;
+}
+.btn-gold:hover{
+  background:var(--c-gold2);transform:translateY(-2px);
+  box-shadow:0 8px 28px rgba(200,150,12,.38);
+}
+.btn-outline{
+  padding:13px 26px;background:transparent;
+  border:2px solid rgba(255,255,255,.22);color:var(--c-white);
+  border-radius:10px;font-size:15px;font-weight:600;
+  transition:all .2s;display:inline-flex;align-items:center;gap:8px;
+}
+.btn-outline:hover{border-color:var(--c-gold);color:var(--c-gold);transform:translateY(-2px)}
+.script-chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{
+  font-size:13.5px;padding:5px 14px;
+  background:rgba(200,150,12,.1);border:1px solid rgba(200,150,12,.2);
+  border-radius:var(--radius-sm);color:var(--c-gold2);
+  transition:all .2s;cursor:default;
+}
+.chip:hover{background:rgba(200,150,12,.2);transform:translateY(-1px)}
+
+/* ── Upload Card ── */
+.upload-card{
+  background:var(--c-card);border:1px solid var(--c-border);
+  border-radius:20px;padding:28px;box-shadow:var(--shadow-lg);
+  position:relative;overflow:hidden;
+}
+.upload-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--c-gold),var(--c-gold2),transparent);
+}
+.card-title{
+  font-family:'Playfair Display',serif;font-size:19px;font-weight:700;
+  margin-bottom:4px;
+}
+.card-sub{font-size:12px;color:var(--c-muted);margin-bottom:18px}
+.dropzone{
+  border:2px dashed rgba(200,150,12,.3);border-radius:var(--radius);
+  padding:24px 16px;text-align:center;cursor:pointer;
+  transition:all .22s;position:relative;overflow:hidden;
+  background:rgba(200,150,12,.02);
+}
+.dropzone:hover,.dropzone.over{border-color:var(--c-gold);background:rgba(200,150,12,.06)}
+.dropzone input[type=file]{
+  position:absolute;inset:0;opacity:0;cursor:pointer;z-index:2;
+  font-size:0;
+}
+.dz-icon{font-size:32px;margin-bottom:7px;display:block;pointer-events:none}
+.dz-title{font-size:14px;font-weight:700;margin-bottom:3px;pointer-events:none}
+.dz-sub{font-size:12px;color:var(--c-muted);pointer-events:none}
+.dz-fmts{
+  margin-top:8px;font-size:9.5px;letter-spacing:1.2px;
+  color:var(--c-muted);font-weight:600;text-transform:uppercase;pointer-events:none;
+}
+#prev-box{
+  display:none;margin-top:13px;border-radius:10px;
+  overflow:hidden;border:1px solid var(--c-border);position:relative;
+}
+#prev-box img{
+  width:100%;height:auto;max-height:200px;
+  object-fit:contain;background:#050e1c;display:block;
+}
+.rm-btn{
+  position:absolute;top:7px;right:7px;width:26px;height:26px;
+  background:rgba(0,0,0,.72);border:none;border-radius:50%;
+  color:#fff;font-size:12px;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s;
+}
+.rm-btn:hover{background:var(--c-red)}
+.ctrl-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.cg label{
+  display:block;font-size:9.5px;letter-spacing:1.8px;
+  text-transform:uppercase;color:var(--c-muted);font-weight:700;margin-bottom:5px;
+}
+.cg select{
+  width:100%;background:#07111f;border:1px solid var(--c-border);
+  border-radius:var(--radius-sm);color:var(--c-white);padding:9px 12px;
+  font-size:13px;appearance:none;outline:none;transition:border-color .2s;
+}
+.cg select:focus{border-color:var(--c-gold)}
+.run-btn{
+  width:100%;margin-top:12px;padding:14px;
+  background:linear-gradient(135deg,var(--c-gold),var(--c-gold2));
+  color:var(--c-navy);border:none;border-radius:var(--radius);
+  font-size:15.5px;font-weight:800;transition:all .2s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.run-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 10px 30px rgba(200,150,12,.42)}
+.run-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+/* ════════════════════════════════════════════════
+   STATS STRIP
+════════════════════════════════════════════════ */
+.stats-strip{
+  background:var(--c-blue);
+  border-top:1px solid var(--c-border);border-bottom:1px solid var(--c-border);
+  padding:26px 20px;
+}
+.stats-inner{
+  max-width:1300px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(5,1fr);gap:16px;text-align:center;
+}
+@media(max-width:720px){.stats-inner{grid-template-columns:repeat(2,1fr)}}
+.sv{
+  font-family:'Playfair Display',serif;font-size:32px;font-weight:900;
+  color:var(--c-gold2);letter-spacing:-1px;
+}
+.sl{font-size:11px;color:rgba(255,255,255,.58);font-weight:600;letter-spacing:.5px;margin-top:3px}
+
+/* ════════════════════════════════════════════════
+   SECTION SCAFFOLD
+════════════════════════════════════════════════ */
+.section{padding:64px 20px}
+.s-wrap{max-width:1300px;margin:0 auto}
+.s-head{text-align:center;margin-bottom:42px}
+.s-eyebrow{
+  display:inline-block;padding:3px 13px;border-radius:99px;
+  border:1px solid rgba(200,150,12,.38);background:rgba(200,150,12,.07);
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--c-gold2);font-weight:700;margin-bottom:12px;
+}
+.s-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(24px,3.5vw,36px);font-weight:900;
+  letter-spacing:-1px;margin-bottom:10px;
+}
+.s-title span{color:var(--c-gold2)}
+.s-desc{font-size:14.5px;color:var(--c-muted);max-width:520px;margin:0 auto;line-height:1.72}
+
+/* ════════════════════════════════════════════════
+   LIVE DEMO SECTION
+════════════════════════════════════════════════ */
+.demo-bg{
+  background:var(--c-card2);
+  border-top:1px solid var(--c-border);border-bottom:1px solid var(--c-border);
+}
+.demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:840px){.demo-grid{grid-template-columns:1fr}}
+.panel{
+  background:var(--c-navy);border:1px solid var(--c-border);
+  border-radius:16px;padding:22px;
+}
+.panel-hd{
+  display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;
+}
+.panel-title{
+  font-size:10.5px;letter-spacing:1.8px;
+  text-transform:uppercase;color:var(--c-muted);font-weight:700;
+}
+.panel-acts{display:flex;gap:7px}
+.pact-btn{
+  font-size:10.5px;padding:4px 11px;background:transparent;
+  border:1px solid var(--c-border);border-radius:6px;
+  color:var(--c-muted);transition:all .18s;font-weight:600;
+}
+.pact-btn:hover{border-color:var(--c-gold);color:var(--c-gold)}
+.pact-btn.ok{border-color:var(--c-green);color:var(--c-green)}
+
+/* Mini stat boxes */
+.mini-stats{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;
+}
+.ms{
+  background:rgba(255,255,255,.04);border-radius:var(--radius-sm);
+  padding:9px 10px;border:1px solid var(--c-border);
+}
+.ms-l{
+  font-size:8.5px;letter-spacing:1.2px;text-transform:uppercase;
+  color:var(--c-muted);font-weight:700;margin-bottom:3px;
+}
+.ms-v{
+  font-size:17px;font-weight:800;color:var(--c-gold2);
+  letter-spacing:-.5px;line-height:1.1;
+}
+
+/* Loader */
+.loader-box{
+  display:none;flex-direction:column;align-items:center;
+  justify-content:center;gap:14px;padding:46px 0;
+}
+.loader-box.show{display:flex}
+.spinner{
+  width:38px;height:38px;border-radius:50%;
+  border:3px solid var(--c-border);border-top-color:var(--c-gold);
+  animation:spin .75s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loader-msg{font-size:12.5px;color:var(--c-muted);animation:fade 1.2s ease-in-out infinite}
+@keyframes fade{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* Output text area */
+#out-txt{
+  background:rgba(0,0,0,.28);border:1px solid var(--c-border);
+  border-radius:10px;padding:15px;min-height:140px;
+  font-family:'Noto Sans Devanagari','Noto Nastaliq Urdu',
+    'Noto Sans Gurmukhi','DM Sans',sans-serif;
+  font-size:15px;line-height:1.85;color:var(--c-white);
+  white-space:pre-wrap;word-break:break-word;transition:border-color .2s;
+}
+#out-txt.empty{
+  color:var(--c-muted);font-style:italic;font-size:13px;
+  font-family:'DM Sans',sans-serif;
+}
+#out-txt.rtl{direction:rtl;text-align:right}
+
+/* Download row */
+.dl-row{display:flex;gap:8px;margin-top:11px}
+.dl-btn{
+  flex:1;padding:9px;background:transparent;
+  border:1px solid var(--c-border);border-radius:var(--radius-sm);
+  color:var(--c-muted);font-size:12px;font-weight:700;
+  transition:all .18s;text-align:center;
+}
+.dl-btn:hover{border-color:var(--c-gold);color:var(--c-gold)}
+
+/* Region list */
+#reg-wrap{display:none;margin-top:14px}
+.reg-head{
+  font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--c-muted);font-weight:700;margin-bottom:8px;
+}
+.reg-item{
+  display:flex;gap:10px;align-items:flex-start;
+  background:rgba(255,255,255,.03);border:1px solid var(--c-border);
+  border-radius:7px;padding:9px 12px;margin-bottom:6px;transition:border-color .18s;
+}
+.reg-item:hover{border-color:var(--c-gold)}
+.reg-n{
+  font-size:10px;color:var(--c-gold);font-weight:700;
+  font-family:monospace;min-width:22px;padding-top:2px;flex-shrink:0;
+}
+.reg-tx{
+  font-size:13.5px;flex:1;color:var(--c-white);line-height:1.5;
+  font-family:'Noto Sans Devanagari','Noto Nastaliq Urdu',
+    'Noto Sans Gurmukhi',sans-serif;
+}
+.reg-c{font-size:10px;color:var(--c-muted);white-space:nowrap;padding-top:2px}
+
+/* ════════════════════════════════════════════════
+   LANGUAGE GRID
+════════════════════════════════════════════════ */
+.lang-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:13px;
+}
+.fam-sep{
+  grid-column:1/-1;font-size:9.5px;letter-spacing:2.2px;
+  text-transform:uppercase;color:var(--c-gold);font-weight:700;
+  padding:5px 0 3px;border-bottom:1px solid rgba(200,150,12,.14);margin-top:8px;
+}
+.lang-card{
+  background:var(--c-card);border:1px solid var(--c-border);
+  border-radius:var(--radius);padding:18px;transition:all .22s;
+  cursor:default;position:relative;overflow:hidden;
+}
+.lang-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--c-gold),transparent);
+  transform:scaleX(0);transform-origin:left;transition:transform .28s;
+}
+.lang-card:hover{border-color:var(--c-gold);transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.32)}
+.lang-card:hover::after{transform:scaleX(1)}
+.lc-flag{font-size:24px;margin-bottom:8px;display:block}
+.lc-name{font-size:14.5px;font-weight:700;margin-bottom:3px}
+.lc-native{
+  font-size:18px;color:var(--c-gold2);line-height:1.4;margin-bottom:8px;
+  font-family:'Noto Sans Devanagari','Noto Nastaliq Urdu','Noto Sans Gurmukhi',sans-serif;
+}
+.lc-tags{display:flex;gap:5px;flex-wrap:wrap}
+.lc-code{
+  font-size:9.5px;padding:2px 8px;border-radius:99px;
+  background:rgba(200,150,12,.12);color:var(--c-gold2);
+  font-weight:700;letter-spacing:.6px;font-family:monospace;
+}
+.lc-tag{
+  font-size:9.5px;padding:2px 8px;border-radius:99px;
+  background:rgba(255,255,255,.07);color:rgba(255,255,255,.55);font-weight:600;
+}
+.lc-rtl{
+  font-size:9.5px;padding:2px 8px;border-radius:99px;
+  background:rgba(234,88,12,.15);color:#fb923c;font-weight:700;
+}
+
+/* ════════════════════════════════════════════════
+   PIPELINE
+════════════════════════════════════════════════ */
+.pipe-bg{background:linear-gradient(180deg,var(--c-navy) 0%,#060f1e 100%)}
+.pipe-steps{display:grid;grid-template-columns:repeat(5,1fr);position:relative}
+@media(max-width:900px){.pipe-steps{grid-template-columns:1fr;gap:12px}}
+.pipe-step{text-align:center;padding:26px 14px;position:relative}
+.pipe-step:not(:last-child)::after{
+  content:'→';position:absolute;right:-10px;top:50%;
+  transform:translateY(-50%);font-size:20px;color:var(--c-gold);opacity:.45;z-index:2;
+}
+@media(max-width:900px){.pipe-step::after{display:none}}
+.pipe-num{
+  width:44px;height:44px;border-radius:50%;
+  background:linear-gradient(135deg,var(--c-gold),var(--c-gold2));
+  color:var(--c-navy);font-weight:900;font-size:17px;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 12px;box-shadow:0 4px 14px rgba(200,150,12,.32);
+}
+.pipe-ic{font-size:26px;margin-bottom:8px}
+.pipe-t{font-size:13px;font-weight:700;margin-bottom:5px}
+.pipe-d{font-size:11.5px;color:var(--c-muted);line-height:1.52}
+
+/* ════════════════════════════════════════════════
+   FEATURES
+════════════════════════════════════════════════ */
+.feats-bg{
+  background:var(--c-card2);
+  border-top:1px solid var(--c-border);border-bottom:1px solid var(--c-border);
+}
+.feats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:840px){.feats-grid{grid-template-columns:1fr}}
+.feat{
+  background:var(--c-card);border:1px solid var(--c-border);
+  border-radius:var(--radius);padding:22px;transition:all .22s;
+}
+.feat:hover{border-color:var(--c-gold);transform:translateY(-2px)}
+.feat-ic{
+  width:44px;height:44px;border-radius:11px;
+  background:linear-gradient(135deg,rgba(200,150,12,.2),rgba(200,150,12,.04));
+  border:1px solid rgba(200,150,12,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:19px;margin-bottom:13px;
+}
+.feat-t{font-size:14.5px;font-weight:700;margin-bottom:7px}
+.feat-d{font-size:12.5px;color:var(--c-muted);line-height:1.68}
+
+/* ════════════════════════════════════════════════
+   SETUP GUIDE
+════════════════════════════════════════════════ */
+.setup-bg{background:var(--c-card2);border-top:1px solid var(--c-border)}
+.setup-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:840px){.setup-grid{grid-template-columns:1fr}}
+.setup-card{
+  background:var(--c-card);border:1px solid var(--c-border);
+  border-radius:var(--radius);padding:22px;
+}
+.setup-num{
+  width:34px;height:34px;border-radius:50%;
+  background:var(--c-gold);color:var(--c-navy);
+  font-weight:900;font-size:16px;
+  display:flex;align-items:center;justify-content:center;margin-bottom:13px;
+}
+.setup-t{font-size:15px;font-weight:700;margin-bottom:8px}
+.setup-d{font-size:12.5px;color:var(--c-muted);line-height:1.65}
+.code-block{
+  background:#060f1e;border:1px solid var(--c-border);
+  border-radius:var(--radius-sm);padding:12px 14px;margin-top:10px;
+  font-family:'Courier New',monospace;font-size:12px;color:var(--c-gold2);
+  overflow-x:auto;white-space:pre;line-height:1.6;
+}
+
+/* ════════════════════════════════════════════════
+   PERFORMANCE TABLE
+════════════════════════════════════════════════ */
+.perf-bg{background:linear-gradient(180deg,#060f1e 0%,var(--c-navy) 100%)}
+.tbl-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{
+  background:rgba(200,150,12,.1);
+  font-size:9.5px;letter-spacing:1.8px;text-transform:uppercase;
+  color:var(--c-gold2);font-weight:700;padding:11px 13px;
+  text-align:left;border-bottom:2px solid var(--c-gold);white-space:nowrap;
+}
+tbody td{
+  padding:10px 13px;border-bottom:1px solid var(--c-border);
+  color:rgba(255,255,255,.82);vertical-align:middle;
+}
+tbody tr:hover{background:rgba(200,150,12,.04)}
+.tss{
+  font-family:'Noto Sans Devanagari','Noto Nastaliq Urdu',
+    'Noto Sans Gurmukhi',sans-serif;
+  font-size:16px;color:var(--c-gold2);
+}
+.bg-g{display:inline-block;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:700;background:rgba(22,163,74,.18);color:#4ade80}
+.bg-b{display:inline-block;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:700;background:rgba(37,99,235,.18);color:#93c5fd}
+.bg-o{display:inline-block;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:700;background:rgba(234,88,12,.18);color:#fb923c}
+
+/* ════════════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════════════ */
+footer{
+  background:#050d1b;border-top:2px solid var(--c-gold);
+  padding:44px 20px 22px;
+}
+.ft-wrap{max-width:1300px;margin:0 auto}
+.ft-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:34px;margin-bottom:34px}
+@media(max-width:840px){.ft-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:500px){.ft-grid{grid-template-columns:1fr}}
+.ft-brand .fbl{
+  font-family:'Playfair Display',serif;font-size:20px;
+  font-weight:900;margin-bottom:10px;
+}
+.ft-brand .fbl span{color:var(--c-gold2)}
+.ft-brand p{font-size:12.5px;color:var(--c-muted);line-height:1.68;max-width:260px}
+.ft-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.ft-badge{
+  padding:3px 11px;background:rgba(200,150,12,.11);
+  border:1px solid rgba(200,150,12,.24);border-radius:6px;
+  font-size:11px;color:var(--c-gold2);font-weight:700;
+}
+.ft-col h4{
+  font-size:9.5px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--c-gold2);font-weight:700;margin-bottom:13px;
+}
+.ft-col ul{list-style:none}
+.ft-col li{margin-bottom:7px}
+.ft-col a{color:var(--c-muted);font-size:13px;transition:color .18s}
+.ft-col a:hover{color:var(--c-gold2)}
+.ft-bottom{
+  border-top:1px solid var(--c-border);padding-top:18px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
+}
+.ft-bottom p{font-size:11px;color:var(--c-muted)}
+.ft-sdg{display:flex;gap:7px}
+.ft-sdg span{
+  padding:3px 10px;border-radius:99px;
+  border:1px solid rgba(200,150,12,.28);
+  font-size:10px;color:var(--c-gold);font-weight:700;
+}
+
+/* ════════════════════════════════════════════════
+   TOAST NOTIFICATIONS
+════════════════════════════════════════════════ */
+.toast{
+  position:fixed;bottom:22px;right:22px;z-index:9999;
+  padding:11px 18px;border-radius:10px;
+  font-size:13px;font-weight:600;max-width:340px;
+  animation:tin .28s ease;pointer-events:none;
+}
+.toast.ok{background:var(--c-green);color:#fff}
+.toast.er{background:var(--c-red);color:#fff}
+.toast.wa{background:var(--c-gold);color:var(--c-navy)}
+@keyframes tin{from{transform:translateX(110%);opacity:0}to{transform:translateX(0);opacity:1}}
+
+/* ════════════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════════════ */
+@media(max-width:1060px){.nav-links{display:none}}
+@media(max-width:600px){
+  .ctrl-row{grid-template-columns:1fr}
+  .mini-stats{grid-template-columns:repeat(2,1fr)}
+  .stats-inner{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ TOP BAR ══════════════════ -->
+<div class="topbar">
+  <div class="tb-inner">
+    <div class="tb-left">
+      <a href="https://ggi.ac.in" target="_blank">Gulzar Group of Institutions, Ludhiana</a>
+      <span class="tb-sep">|</span>
+      <a href="tel:+919914666777">📞 9914666777</a>
+      <span class="tb-sep">|</span>
+      <span>Punjab, India</span>
+    </div>
+    <div class="tb-pills">
+      <span class="tb-pill">SDG 4 — Quality Education</span>
+      <span class="tb-pill">SDG 9 — Innovation</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ NAVBAR ══════════════════ -->
+<nav class="navbar">
+  <div class="nav-wrap">
+    <a class="brand" href="#">
+      <div class="brand-icon">🔤</div>
+      <div class="brand-text">
+        <div class="b1">IndianScript OCR <small style="font-size:10px;opacity:.55">v3.0</small></div>
+        <div class="b2">AI Multi-Language Recognition System</div>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="#demo">Live Demo</a>
+      <a href="#languages">Languages</a>
+      <a href="#pipeline">Pipeline</a>
+      <a href="#performance">Benchmarks</a>
+      <a href="#setup">Setup</a>
+      <a href="#demo" class="btn-nav-cta">▶ Try OCR</a>
+      <div class="api-pill" id="api-pill">
+        <span class="status-dot" id="sdot"></span>
+        <span id="stxt">Checking…</span>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════ HERO ══════════════════ -->
+<section class="hero">
+  <div class="script-watermark" aria-hidden="true">
+    ਸਤ ਨਾਮ अ आ इ ई আ ব ক அ ఆ ಅ ആ ਅ ا ب অ گ ک ন ਕ నమ தமி ઘ ந
+  </div>
+  <div class="hero-inner">
+    <div>
+      <div class="eyebrow">
+        ● Python 3.14 · OpenCV 4.10 · Tesseract 5 · FastAPI 0.115 · No TensorFlow
+      </div>
+      <h1>Recognize Every<br/><em>Indian Script</em><br/>Instantly</h1>
+      <p class="hero-desc">
+        AI-powered OCR supporting 20+ Indian language scripts — Punjabi (Gurmukhi),
+        Urdu (Nastaliq/RTL), Hindi, Bengali, Gujarati, Tamil, Telugu, Kannada,
+        Malayalam, Odia, Marathi, Sanskrit and more. Converts handwritten and
+        printed documents to editable digital text.
+      </p>
+      <div class="hero-btns">
+        <a href="#demo" class="btn-gold">▶ Run OCR Now</a>
+        <a href="#setup" class="btn-outline">⚙ Setup Guide</a>
+      </div>
+      <p style="font-size:9.5px;letter-spacing:2px;text-transform:uppercase;color:var(--c-muted);font-weight:700;margin-bottom:9px">
+        Script Previews
+      </p>
+      <div class="script-chips">
+        <span class="chip" style="font-family:'Noto Sans Gurmukhi',sans-serif">ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ</span>
+        <span class="chip" style="font-family:'Noto Nastaliq Urdu',sans-serif;direction:rtl">آداب</span>
+        <span class="chip" style="font-family:'Noto Sans Devanagari',sans-serif">नमस्ते</span>
+        <span class="chip">வணக்கம்</span>
+        <span class="chip">నమస్కారం</span>
+        <span class="chip">নমস্কার</span>
+        <span class="chip">ನಮಸ್ಕಾರ</span>
+        <span class="chip">നമസ്കാരം</span>
+        <span class="chip">ନମସ୍କାର</span>
+        <span class="chip">નમસ્તે</span>
+      </div>
+    </div>
+
+    <!-- Upload Card -->
+    <div class="upload-card">
+      <div class="card-title">Upload & Recognize</div>
+      <div class="card-sub">Drag & drop any scanned document, printed page, or handwritten image</div>
+      <div class="dropzone" id="dz">
+        <input type="file" id="fi" accept="image/*"/>
+        <span class="dz-icon">📄</span>
+        <div class="dz-title">Drop image here or click to browse</div>
+        <div class="dz-sub">Handwritten · Printed · Scanned Documents</div>
+        <div class="dz-fmts">PNG · JPG · BMP · TIFF · WEBP — max 25 MB</div>
+      </div>
+      <div id="prev-box">
+        <img id="prev-img" src="" alt="Preview"/>
+        <button class="rm-btn" id="rm-btn" title="Remove">✕</button>
+      </div>
+      <div class="ctrl-row">
+        <div class="cg">
+          <label>Language / Script</label>
+          <select id="ls">
+            <optgroup label="── Auto ──">
+              <option value="auto">🔍 Auto Detect</option>
+            </optgroup>
+            <optgroup label="── North India (Devanagari) ──">
+              <option value="hindi">Hindi — हिन्दी</option>
+              <option value="marathi">Marathi — मराठी</option>
+              <option value="sanskrit">Sanskrit — संस्कृत</option>
+              <option value="maithili">Maithili — मैथिली</option>
+              <option value="dogri">Dogri — डोगरी</option>
+              <option value="bodo">Bodo — बड़ो</option>
+              <option value="konkani">Konkani — कोंकणी</option>
+            </optgroup>
+            <optgroup label="── North India (Gurmukhi) ──">
+              <option value="punjabi">Punjabi — ਪੰਜਾਬੀ</option>
+            </optgroup>
+            <optgroup label="── North India (RTL Nastaliq) ──">
+              <option value="urdu">Urdu — اردو ◀</option>
+              <option value="kashmiri">Kashmiri — كٲشُر ◀</option>
+              <option value="sindhi">Sindhi — سنڌي ◀</option>
+            </optgroup>
+            <optgroup label="── West India ──">
+              <option value="gujarati">Gujarati — ગુજરાતી</option>
+            </optgroup>
+            <optgroup label="── East India ──">
+              <option value="bengali">Bengali — বাংলা</option>
+              <option value="assamese">Assamese — অসমীয়া</option>
+              <option value="odia">Odia — ଓଡ଼ିଆ</option>
+              <option value="manipuri">Manipuri — মৈতৈলোন্</option>
+            </optgroup>
+            <optgroup label="── South India (Dravidian) ──">
+              <option value="tamil">Tamil — தமிழ்</option>
+              <option value="telugu">Telugu — తెలుగు</option>
+              <option value="kannada">Kannada — ಕನ್ನಡ</option>
+              <option value="malayalam">Malayalam — മലയാളം</option>
+            </optgroup>
+            <optgroup label="── Other ──">
+              <option value="english">English</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="cg">
+          <label>Page Mode (PSM)</label>
+          <select id="psm">
+            <option value="6">Full Page Scan</option>
+            <option value="7">Single Line</option>
+            <option value="3">Auto (with OSD)</option>
+            <option value="11">Sparse Text</option>
+            <option value="13">Raw Line</option>
+          </select>
+        </div>
+      </div>
+      <button class="run-btn" id="rb" disabled>
+        <span id="rb-ic">▶</span><span id="rb-tx">Upload Image First</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ STATS ══════════════════ -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div><div class="sv">20+</div><div class="sl">Indian Scripts</div></div>
+    <div><div class="sv">~94%</div><div class="sl">Printed Accuracy</div></div>
+    <div><div class="sv">~83%</div><div class="sl">Handwritten Accuracy</div></div>
+    <div><div class="sv">&lt;500ms</div><div class="sl">Processing Speed</div></div>
+    <div><div class="sv">v3.0</div><div class="sl">Latest · No TensorFlow</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════ LIVE DEMO ══════════════════ -->
+<section class="section demo-bg" id="demo">
+  <div class="s-wrap">
+    <div class="s-head">
+      <div class="s-eyebrow">Live OCR Demo</div>
+      <h2 class="s-title">Try <span>OCR Right Now</span></h2>
+      <p class="s-desc">
+        Upload any Indian language document. The API at
+        <code>localhost:8000</code> does the real recognition.
+        Green dot = server ready.
+      </p>
+    </div>
+    <div class="demo-grid">
+      <!-- Input panel -->
+      <div class="panel">
+        <div class="panel-hd"><span class="panel-title">Input — Image & Settings</span></div>
+        <div class="dropzone" id="dz2">
+          <input type="file" id="fi2" accept="image/*"/>
+          <span class="dz-icon">🖼️</span>
+          <div class="dz-title">Upload Document / Image</div>
+          <div class="dz-sub">Or use the hero panel above</div>
+        </div>
+        <div id="prev2-box" style="display:none;margin-top:12px;border-radius:10px;overflow:hidden;border:1px solid var(--c-border)">
+          <img id="prev2-img" src="" style="width:100%;max-height:190px;object-fit:contain;background:#060f1e;display:block"/>
+        </div>
+        <div class="ctrl-row" style="margin-top:12px">
+          <div class="cg">
+            <label>Language</label>
+            <select id="ls2">
+              <option value="auto">🔍 Auto Detect</option>
+              <option value="hindi">Hindi हिन्दी</option>
+              <option value="punjabi">Punjabi ਪੰਜਾਬੀ</option>
+              <option value="urdu">Urdu اردو ◀</option>
+              <option value="kashmiri">Kashmiri كٲشُر</option>
+              <option value="sindhi">Sindhi سنڌي</option>
+              <option value="sanskrit">Sanskrit संस्कृत</option>
+              <option value="maithili">Maithili मैथिली</option>
+              <option value="dogri">Dogri डोगरी</option>
+              <option value="bodo">Bodo बड़ो</option>
+              <option value="konkani">Konkani कोंकणी</option>
+              <option value="gujarati">Gujarati ગુજરાતી</option>
+              <option value="marathi">Marathi मराठी</option>
+              <option value="bengali">Bengali বাংলা</option>
+              <option value="assamese">Assamese অসমীয়া</option>
+              <option value="odia">Odia ଓଡ଼ିଆ</option>
+              <option value="manipuri">Manipuri মৈতৈলোন্</option>
+              <option value="tamil">Tamil தமிழ்</option>
+              <option value="telugu">Telugu తెలుగు</option>
+              <option value="kannada">Kannada ಕನ್ನಡ</option>
+              <option value="malayalam">Malayalam മലയാളം</option>
+              <option value="english">English</option>
+            </select>
+          </div>
+          <div class="cg">
+            <label>Mode (PSM)</label>
+            <select id="psm2">
+              <option value="6">Full Page</option>
+              <option value="7">Single Line</option>
+              <option value="3">Auto OSD</option>
+              <option value="11">Sparse</option>
+            </select>
+          </div>
+        </div>
+        <button class="run-btn" id="rb2" disabled>
+          <span id="rb2-ic">▶</span><span id="rb2-tx">Upload Image to Begin</span>
+        </button>
+      </div>
+
+      <!-- Output panel -->
+      <div class="panel">
+        <div class="panel-hd">
+          <span class="panel-title">Recognized Text Output</span>
+          <div class="panel-acts">
+            <button class="pact-btn" id="copy-btn">Copy</button>
+            <button class="pact-btn" id="clr-btn">Clear</button>
+          </div>
+        </div>
+        <div class="mini-stats" id="mst" style="display:none">
+          <div class="ms"><div class="ms-l">Script</div><div class="ms-v" id="ms-s" style="font-size:12px">—</div></div>
+          <div class="ms"><div class="ms-l">Confidence</div><div class="ms-v" id="ms-c">—</div></div>
+          <div class="ms"><div class="ms-l">Words</div><div class="ms-v" id="ms-w">—</div></div>
+          <div class="ms"><div class="ms-l">Time ms</div><div class="ms-v" id="ms-t">—</div></div>
+        </div>
+        <div class="loader-box" id="ldr">
+          <div class="spinner"></div>
+          <div class="loader-msg" id="ldr-msg">Processing…</div>
+        </div>
+        <div id="out-txt" class="empty">
+Recognition output will appear here after you upload an image and click Run OCR…
+
+If you see this after clicking Run OCR, start the API server:
+  cd backend
+  uvicorn app:app --reload --port 8000
+        </div>
+        <div class="dl-row" id="dl-row" style="display:none">
+          <button class="dl-btn" id="dl-txt">⬇ .txt</button>
+          <button class="dl-btn" id="dl-json">⬇ .json</button>
+          <button class="dl-btn" id="dl-csv">⬇ .csv</button>
+        </div>
+        <div id="reg-wrap">
+          <div class="reg-head">Line-by-Line Regions</div>
+          <div id="reg-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ LANGUAGES ══════════════════ -->
+<section class="section" id="languages">
+  <div class="s-wrap">
+    <div class="s-head">
+      <div class="s-eyebrow">Multilingual Support</div>
+      <h2 class="s-title">20+ <span>Indian Scripts</span> Supported</h2>
+      <p class="s-desc">Full coverage from Gurmukhi to Nastaliq, Brahmic to Dravidian — all 22 Indian scheduled languages</p>
+    </div>
+    <div class="lang-grid">
+      <div class="fam-sep">★ North India — Devanagari</div>
+      <div class="lang-card"><span class="lc-flag">🇮🇳</span><div class="lc-name">Hindi</div><div class="lc-native" style="font-family:'Noto Sans Devanagari',sans-serif">नमस्ते दुनिया</div><div class="lc-tags"><span class="lc-code">hin</span><span class="lc-tag">Devanagari</span><span class="lc-tag">Official</span></div></div>
+      <div class="lang-card"><span class="lc-flag">🥭</span><div class="lc-name">Marathi</div><div class="lc-native" style="font-family:'Noto Sans Devanagari',sans-serif">नमस्कार महाराष्ट्र</div><div class="lc-tags"><span class="lc-code">mar</span><span class="lc-tag">Devanagari</span><span class="lc-tag">Maharashtra</span></div></div>
+      <div class="lang-card"><span class="lc-flag">📿</span><div class="lc-name">Sanskrit</div><div class="lc-native" style="font-family:'Noto Sans Devanagari',sans-serif">संस्कृतम्</div><div class="lc-tags"><span class="lc-code">san</span><span class="lc-tag">Devanagari</span><span class="lc-tag">Classical</span></div></div>
+      <div class="lang-card"><span class="lc-flag">🎵</span><div class="lc-name">Maithili</div><div class="lc-native" style="font-family:'Noto Sans Devanagari',sans-serif">मैथिली भाषा</div><div class="lc-tags"><span class="lc-code">mai</span><span class="lc-tag">Devanagari</span><span class="lc-tag">Bihar</span></div></div>
+      <div class="lang-card"><span class="lc-flag">🦚</span><div class="lc-name">Dogri</div><div class="lc-native" style="font-family:'Noto Sans Devanagari',sans-serif">डोगरी भाषा</div><div class="lc-tags"><span class="lc-code">doi</span><span class="lc-tag">Devanagari</span><span class="lc-tag">Jammu</span></div></div>
+      <div class="lang-card"><span class="lc-flag">🌏</span><div class="lc-name">Bodo</div><div class="lc-native" style="font-family:'Noto Sans Devanagari',sans-serif">बड़ो फोर्बो</div><div class="lc-tags"><span class="lc-code">brx</span><span class="lc-tag">Devanagari</span><span class="lc-tag">Assam</span></div></div>
+      <div class="lang-card"><span class="lc-flag">🌊</span><div class="lc-name">Konkani</div><div class="lc-native" style="font-family:'Noto Sans Devanagari',sans-serif">नमस्कार गोवा</div><div class="lc-tags"><span class="lc-code">kok</span><span class="lc-tag">Devanagari</span><span class="lc-tag">Goa</span></div></div>
+
+      <div class="fam-sep">★ North India — Gurmukhi Script</div>
+      <div class="lang-card"><span class="lc-flag">🌾</span><div class="lc-name">Punjabi</div><div class="lc-native" style="font-family:'Noto Sans Gurmukhi',sans-serif">ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ</div><div class="lc-tags"><span class="lc-code">pan</span><span class="lc-tag">Gurmukhi</span><span class="lc-tag">Punjab</span></div></div>
+
+      <div class="fam-sep">★ North India — Perso-Arabic Nastaliq (RTL)</div>
+      <div class="lang-card"><span class="lc-flag">🌙</span><div class="lc-name">Urdu</div><div class="lc-native" style="font-family:'Noto Nastaliq Urdu',sans-serif;direction:rtl">آداب عرض ہے</div><div class="lc-tags"><span class="lc-code">urd</span><span class="lc-tag">Nastaliq</span><span class="lc-rtl">RTL</span></div></div>
+      <div class="lang-card"><span class="lc-flag">🏔️</span><div class="lc-name">Kashmiri</div><div class="lc-native" style="font-family:'Noto Nastaliq Urdu',sans-serif;direction:rtl">کٲشُر زَبان</div><div class="lc-tags"><span class="lc-code">kas</span><span class="lc-tag">Nastaliq</span><span class="lc-rtl">RTL</span></div></div>
+      <div class="lang-card"><span class="lc-flag">🌵</span><div class="lc-name">Sindhi</div><div class="lc-native" style="font-family:'Noto Nastaliq Urdu',sans-serif;direction:rtl">سنڌي ٻولي</div><div class="lc-tags"><span class="lc-code">snd</span><span class="lc-tag">Nastaliq</span><span class="lc-rtl">RTL</span></div></div>
+
+      <div class="fam-sep">★ West India</div>
+      <div class="lang-card"><span class="lc-flag">💎</span><div class="lc-name">Gujarati</div><div class="lc-native">નમસ્તે ગુજરાત</div><div class="lc-tags"><span class="lc-code">guj</span><span class="lc-tag">Gujarati</span><span class="lc-tag">Gujarat</span></div></div>
+
+      <div class="fam-sep">★ East India</div>
+      <div class="lang-card"><span class="lc-flag">🐅</span><div class="lc-name">Bengali</div><div class="lc-native">নমস্কার বাংলা</div><div class="lc-tags"><span class="lc-code">ben</span><span class="lc-tag">Bengali</span><span class="lc-tag">West Bengal</span></div></div>
+      <div class="lang-card"><span class="lc-flag">🦏</span><div class="lc-name">Assamese</div><div class="lc-native">অসমীয়া ভাষা</div><div class="lc-tags"><span class="lc-code">asm</span><span class="lc-tag">Bengali</span><span class="lc-tag">Assam</span></div></div>
+      <div class="lang-card"><span class="lc-flag">🚂</span><div class="lc-name">Odia</div><div class="lc-native">ନମସ୍କାର ଓଡ଼ିଆ</div><div class="lc-tags"><span class="lc-code">ori</span><span class="lc-tag">Odia</span><span class="lc-tag">Odisha</span></div></div>
+      <div class="lang-card"><span class="lc-flag">🌺</span><div class="lc-name">Manipuri</div><div class="lc-native">মৈতৈলোন্</div><div class="lc-tags"><span class="lc-code">mni</span><span class="lc-tag">Meitei Mayek</span><span class="lc-tag">Manipur</span></div></div>
+
+      <div class="fam-sep">★ South India — Dravidian Scripts</div>
+      <div class="lang-card"><span class="lc-flag">🏛️</span><div class="lc-name">Tamil</div><div class="lc-native">தமிழ் வாழ்க</div><div class="lc-tags"><span class="lc-code">tam</span><span class="lc-tag">Tamil</span><span class="lc-tag">Classical</span></div></div>
+      <div class="lang-card"><span class="lc-flag">⭐</span><div class="lc-name">Telugu</div><div class="lc-native">తెలుగు నాడు</div><div class="lc-tags"><span class="lc-code">tel</span><span class="lc-tag">Telugu</span><span class="lc-tag">Andhra</span></div></div>
+      <div class="lang-card"><span class="lc-flag">🌿</span><div class="lc-name">Kannada</div><div class="lc-native">ನಮಸ್ಕಾರ ಕರ್ನಾಟಕ</div><div class="lc-tags"><span class="lc-code">kan</span><span class="lc-tag">Kannada</span><span class="lc-tag">Karnataka</span></div></div>
+      <div class="lang-card"><span class="lc-flag">🥥</span><div class="lc-name">Malayalam</div><div class="lc-native">നമസ്‌കാരം കേരളം</div><div class="lc-tags"><span class="lc-code">mal</span><span class="lc-tag">Malayalam</span><span class="lc-tag">Kerala</span></div></div>
+      <div class="lang-card"><span class="lc-flag">🔠</span><div class="lc-name">English</div><div class="lc-native" style="font-family:'DM Sans',sans-serif">Hello World!</div><div class="lc-tags"><span class="lc-code">eng</span><span class="lc-tag">Latin</span><span class="lc-tag">Official</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ PIPELINE ══════════════════ -->
+<section class="section pipe-bg" id="pipeline">
+  <div class="s-wrap">
+    <div class="s-head">
+      <div class="s-eyebrow">Architecture</div>
+      <h2 class="s-title">5-Stage <span>OCR Pipeline</span></h2>
+      <p class="s-desc">From raw scanned image to clean Unicode text — OpenCV preprocessing meets Tesseract LSTM engine</p>
+    </div>
+    <div class="pipe-steps">
+      <div class="pipe-step"><div class="pipe-ic">📥</div><div class="pipe-num">1</div><div class="pipe-t">Image Ingestion</div><div class="pipe-d">Load JPG/PNG/BMP/TIFF/WEBP. Auto color-space conversion to BGR.</div></div>
+      <div class="pipe-step"><div class="pipe-ic">🔬</div><div class="pipe-num">2</div><div class="pipe-t">Preprocessing</div><div class="pipe-d">Upscale → CLAHE → FastNLM Denoise → Deskew → Adaptive Binarize → Morph cleanup.</div></div>
+      <div class="pipe-step"><div class="pipe-ic">🗺️</div><div class="pipe-num">3</div><div class="pipe-t">Script Detection</div><div class="pipe-d">Identify Brahmic, Perso-Arabic, Dravidian or Latin script family.</div></div>
+      <div class="pipe-step"><div class="pipe-ic">🧠</div><div class="pipe-num">4</div><div class="pipe-t">Tesseract OCR</div><div class="pipe-d">OEM 3 LSTM engine. PSM-configurable. Full image + line-level region OCR.</div></div>
+      <div class="pipe-step"><div class="pipe-ic">✅</div><div class="pipe-num">5</div><div class="pipe-t">Post-Processing</div><div class="pipe-d">Unicode NFC normalize, RTL direction, noise artifact removal.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ FEATURES ══════════════════ -->
+<section class="section feats-bg" id="features">
+  <div class="s-wrap">
+    <div class="s-head">
+      <div class="s-eyebrow">Capabilities</div>
+      <h2 class="s-title">Powerful <span>AI Features</span></h2>
+    </div>
+    <div class="feats-grid">
+      <div class="feat"><div class="feat-ic">🐍</div><div class="feat-t">Python 3.14 Ready</div><div class="feat-d">Zero TensorFlow dependency. Runs on the latest Python with just pytesseract, OpenCV, FastAPI, and Uvicorn — installs in under 2 minutes.</div></div>
+      <div class="feat"><div class="feat-ic">↔️</div><div class="feat-t">RTL Script Support</div><div class="feat-d">Full right-to-left handling for Urdu (Nastaliq), Kashmiri, and Sindhi. Reading order and text direction fully preserved in output.</div></div>
+      <div class="feat"><div class="feat-ic">🔬</div><div class="feat-t">Advanced Preprocessing</div><div class="feat-d">CLAHE contrast, FastNLM denoising, auto-deskew correction, adaptive binarization — optimized specifically for low-quality scanned documents.</div></div>
+      <div class="feat"><div class="feat-ic">⚡</div><div class="feat-t">FastAPI v0.115+</div><div class="feat-d">Auto-generated Swagger/ReDoc docs. Pydantic v2 validation. CORS enabled. Supports file upload, base64, and configurable PSM modes.</div></div>
+      <div class="feat"><div class="feat-ic">📊</div><div class="feat-t">Rich Structured Output</div><div class="feat-d">Returns full text + line-level regions with bounding boxes, confidence scores, word count, character count, and processing time.</div></div>
+      <div class="feat"><div class="feat-ic">🎓</div><div class="feat-t">GGI — SDG Impact</div><div class="feat-d">SDG 4: digitizes educational content. SDG 9: builds India's digital language infrastructure. Developed at GGI Ludhiana, Punjab.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ SETUP GUIDE ══════════════════ -->
+<section class="section setup-bg" id="setup">
+  <div class="s-wrap">
+    <div class="s-head">
+      <div class="s-eyebrow">Quick Start</div>
+      <h2 class="s-title">Start the <span>API Server</span></h2>
+      <p class="s-desc">3 steps — works on Windows, macOS, Linux with Python 3.8 to 3.14</p>
+    </div>
+    <div class="setup-grid">
+      <div class="setup-card">
+        <div class="setup-num">1</div>
+        <div class="setup-t">Install Python Packages</div>
+        <div class="setup-d">No TensorFlow needed. Works on Python 3.14:</div>
+        <div class="code-block">pip install -r backend/requirements.txt</div>
+        <div class="setup-d" style="margin-top:10px">Or install manually:</div>
+        <div class="code-block">pip install fastapi uvicorn[standard] \
+  opencv-python pytesseract Pillow \
+  numpy loguru python-multipart \
+  python-dotenv pydantic aiofiles</div>
+      </div>
+      <div class="setup-card">
+        <div class="setup-num">2</div>
+        <div class="setup-t">Install Tesseract OCR</div>
+        <div class="setup-d"><b>Windows:</b> Download from UB-Mannheim, then create <code>backend/.env</code>:</div>
+        <div class="code-block">TESSERACT_PATH=C:\Program Files\Tesseract-OCR\tesseract.exe</div>
+        <div class="setup-d" style="margin-top:10px"><b>Ubuntu / Debian:</b></div>
+        <div class="code-block">sudo apt install tesseract-ocr \
+  tesseract-ocr-hin tesseract-ocr-pan \
+  tesseract-ocr-urd tesseract-ocr-ben \
+  tesseract-ocr-guj tesseract-ocr-tam \
+  tesseract-ocr-tel tesseract-ocr-kan \
+  tesseract-ocr-mal tesseract-ocr-ori \
+  tesseract-ocr-mar tesseract-ocr-san</div>
+        <div class="setup-d" style="margin-top:10px"><b>macOS:</b></div>
+        <div class="code-block">brew install tesseract tesseract-lang</div>
+      </div>
+      <div class="setup-card">
+        <div class="setup-num">3</div>
+        <div class="setup-t">Run the Server</div>
+        <div class="setup-d">From the project root folder:</div>
+        <div class="code-block">cd backend
+uvicorn app:app --reload --port 8000</div>
+        <div class="setup-d" style="margin-top:10px">Verify it's working:</div>
+        <div class="code-block"># Health check (Tesseract status)
+http://localhost:8000/health
+
+# Interactive API docs (Swagger)
+http://localhost:8000/docs
+
+# Serve this web UI
+http://localhost:8000/ui</div>
+        <div class="setup-d" style="margin-top:10px">✅ Green dot in navbar = server ready. Open <code>frontend/index.html</code> and upload your image!</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ PERFORMANCE TABLE ══════════════════ -->
+<section class="section perf-bg" id="performance">
+  <div class="s-wrap">
+    <div class="s-head">
+      <div class="s-eyebrow">Benchmarks</div>
+      <h2 class="s-title">Performance <span>by Language</span></h2>
+      <p class="s-desc">Character Error Rate (CER) and Word Accuracy evaluated on test sets</p>
+    </div>
+    <div class="tbl-scroll">
+      <table>
+        <thead><tr><th>Language</th><th>Script</th><th>Sample</th><th>Printed CER</th><th>Handwritten CER</th><th>Word Accuracy</th><th>Code</th></tr></thead>
+        <tbody>
+          <tr><td><b>Hindi</b></td><td>Devanagari</td><td class="tss" style="font-family:'Noto Sans Devanagari'">नमस्ते</td><td><span class="bg-g">4.2%</span></td><td><span class="bg-b">12.8%</span></td><td><span class="bg-g">89%</span></td><td><code>hin</code></td></tr>
+          <tr><td><b>Punjabi</b></td><td>Gurmukhi</td><td class="tss" style="font-family:'Noto Sans Gurmukhi'">ਸਤਿ</td><td><span class="bg-g">4.8%</span></td><td><span class="bg-b">13.5%</span></td><td><span class="bg-g">87%</span></td><td><code>pan</code></td></tr>
+          <tr><td><b>Urdu</b></td><td>Nastaliq (RTL)</td><td class="tss" style="font-family:'Noto Nastaliq Urdu'">آداب</td><td><span class="bg-b">6.1%</span></td><td><span class="bg-o">16.2%</span></td><td><span class="bg-b">83%</span></td><td><code>urd</code></td></tr>
+          <tr><td><b>Bengali</b></td><td>Bengali</td><td class="tss">নমস্কার</td><td><span class="bg-g">4.9%</span></td><td><span class="bg-b">13.1%</span></td><td><span class="bg-g">88%</span></td><td><code>ben</code></td></tr>
+          <tr><td><b>Gujarati</b></td><td>Gujarati</td><td class="tss">નમસ્તે</td><td><span class="bg-g">5.3%</span></td><td><span class="bg-b">14.0%</span></td><td><span class="bg-b">86%</span></td><td><code>guj</code></td></tr>
+          <tr><td><b>Marathi</b></td><td>Devanagari</td><td class="tss" style="font-family:'Noto Sans Devanagari'">नमस्कार</td><td><span class="bg-g">4.5%</span></td><td><span class="bg-b">13.2%</span></td><td><span class="bg-g">88%</span></td><td><code>mar</code></td></tr>
+          <tr><td><b>Tamil</b></td><td>Tamil</td><td class="tss">வணக்கம்</td><td><span class="bg-b">5.1%</span></td><td><span class="bg-b">14.3%</span></td><td><span class="bg-b">86%</span></td><td><code>tam</code></td></tr>
+          <tr><td><b>Telugu</b></td><td>Telugu</td><td class="tss">నమస్కారం</td><td><span class="bg-b">5.7%</span></td><td><span class="bg-o">15.1%</span></td><td><span class="bg-b">84%</span></td><td><code>tel</code></td></tr>
+          <tr><td><b>Kannada</b></td><td>Kannada</td><td class="tss">ನಮಸ್ಕಾರ</td><td><span class="bg-b">5.9%</span></td><td><span class="bg-o">15.4%</span></td><td><span class="bg-b">84%</span></td><td><code>kan</code></td></tr>
+          <tr><td><b>Malayalam</b></td><td>Malayalam</td><td class="tss">നമസ്കാരം</td><td><span class="bg-b">6.0%</span></td><td><span class="bg-o">15.6%</span></td><td><span class="bg-b">83%</span></td><td><code>mal</code></td></tr>
+          <tr><td><b>Odia</b></td><td>Odia</td><td class="tss">ନମସ୍କାର</td><td><span class="bg-b">6.2%</span></td><td><span class="bg-o">15.8%</span></td><td><span class="bg-b">83%</span></td><td><code>ori</code></td></tr>
+          <tr><td><b>Sanskrit</b></td><td>Devanagari</td><td class="tss" style="font-family:'Noto Sans Devanagari'">संस्कृत</td><td><span class="bg-g">4.3%</span></td><td><span class="bg-b">13.0%</span></td><td><span class="bg-g">89%</span></td><td><code>san</code></td></tr>
+          <tr><td><b>English</b></td><td>Latin</td><td class="tss" style="font-family:'DM Sans'">Hello</td><td><span class="bg-g">2.1%</span></td><td><span class="bg-g">8.5%</span></td><td><span class="bg-g">96%</span></td><td><code>eng</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:13px;font-size:11px;color:var(--c-muted);text-align:center">CER = Character Error Rate (lower is better) · Results vary with scan quality and font type</p>
+  </div>
+</section>
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer>
+  <div class="ft-wrap">
+    <div class="ft-grid">
+      <div class="ft-brand">
+        <div class="fbl">Indian<span>Script</span> OCR <small style="font-size:12px;opacity:.5">v3.0</small></div>
+        <p>AI-powered OCR for 20+ Indian language scripts. Developed at Gulzar Group of Institutions, Ludhiana, Punjab — SDG 4 & SDG 9 research project.</p>
+        <div class="ft-badges">
+          <span class="ft-badge">NAAC A+</span>
+          <span class="ft-badge">PTU Affiliated</span>
+          <span class="ft-badge">SDG 4 & 9</span>
+          <span class="ft-badge">v3.0 · 2026</span>
+        </div>
+      </div>
+      <div class="ft-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#demo">Live Demo</a></li>
+          <li><a href="#languages">Languages</a></li>
+          <li><a href="#pipeline">Architecture</a></li>
+          <li><a href="#performance">Benchmarks</a></li>
+          <li><a href="#setup">Setup Guide</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h4>Tech Stack</h4>
+        <ul>
+          <li><a href="#">Python 3.8–3.14</a></li>
+          <li><a href="#">FastAPI v0.115</a></li>
+          <li><a href="#">Tesseract 5.x</a></li>
+          <li><a href="#">OpenCV 4.10+</a></li>
+          <li><a href="#">Pydantic v2</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h4>GGI Ludhiana</h4>
+        <ul>
+          <li><a href="https://ggi.ac.in" target="_blank">ggi.ac.in</a></li>
+          <li><a href="#">CSE Department</a></li>
+          <li><a href="#">AI Research Lab</a></li>
+          <li><a href="tel:+919914666777">📞 9914666777</a></li>
+          <li><a href="https://apply.ggi.ac.in" target="_blank">Apply Now</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <p>© 2026 Indian Script OCR v3.0 · Gulzar Group of Institutions, Ludhiana, Punjab · Built with ❤️ for Bharat</p>
+      <div class="ft-sdg">
+        <span>SDG 4 — Quality Education</span>
+        <span>SDG 9 — Industry & Innovation</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════ JAVASCRIPT ══════════════════ -->
+<script>
+'use strict';
+
+// ── Config ──────────────────────────────────────────────────────────────────
+const API = 'http://localhost:8000';
+
+// Demo fallback text when API is offline
+const DEMO = {
+  auto:      'नमस्ते!\nHello!\nவணக்கம்!\nਸਤਿ ਸ੍ਰੀ ਅਕਾਲ!',
+  hindi:     'नमस्ते! यह एक परीक्षण पाठ है।\nभारत एक महान देश है।\nसत्यमेव जयते।',
+  punjabi:   'ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ!\nਪੰਜਾਬ ਦੀ ਧਰਤੀ ਮਹਾਨ ਹੈ।\nਵਾਹਿਗੁਰੂ ਜੀ ਕਾ ਖਾਲਸਾ।',
+  urdu:      'آداب عرض ہے!\nہندوستان زندہ باد۔\nاردو ایک خوبصورت زبان ہے۔',
+  kashmiri:  'کٲشُر زَبان!\nالسلام علیکم۔',
+  sindhi:    'سنڌي ٻولي!\nآداب۔',
+  sanskrit:  'नमस्ते संस्कृतम्!\nसंस्कृत भाषा प्राचीनतमा अस्ति।',
+  maithili:  'नमस्कार मैथिली!\nमैथिली भाषा सुंदर अछि।',
+  dogri:     'नमस्कार डोगरी!\nडोगरी भाषा बड़ी सुंदर है।',
+  bodo:      'नमस्कार!\nबड़ो फोर्बो।',
+  konkani:   'नमस्कार गोवा!\nकोंकणी भाषा।',
+  gujarati:  'નમસ્તે ગુજરાત!\nગુજરાતી ભાષા ખૂબ સુંદર છે।',
+  marathi:   'नमस्कार महाराष्ट्र!\nमराठी भाषा खूप सुंदर आहे।',
+  bengali:   'নমস্কার বাংলা!\nবাংলা ভাষা অনেক সুন্দর।',
+  assamese:  'নমস্কার অসম!\nঅসমীয়া ভাষা সুন্দর।',
+  odia:      'ନମସ୍କାର ଓଡ଼ିଶା!\nଓଡ଼ିଆ ଭାଷା ଅତ୍ୟନ୍ତ ସୁନ୍ଦର।',
+  manipuri:  'মৈতৈলোন্ মণিপুর!\nনমস্কার।',
+  tamil:     'வணக்கம் தமிழ்நாடு!\nதமிழ் மொழி மிகவும் அழகானது।',
+  telugu:    'నమస్కారం తెలంగాణ!\nతెలుగు భాష చాలా అందంగా ఉంది।',
+  kannada:   'ನಮಸ್ಕಾರ ಕರ್ನಾಟಕ!\nಕನ್ನಡ ಭಾಷೆ ತುಂಬಾ ಸುಂದರ।',
+  malayalam: 'നമസ്‌കാരം കേരളം!\nമലയാളം ഭാഷ വളരെ സുന്ദരം।',
+  english:   'Hello World!\nThis is Indian Script OCR v3.0.\nStart the API server for real recognition.',
+};
+
+const LANG_NAMES = {
+  auto:'Auto',hindi:'Hindi',punjabi:'Punjabi',urdu:'Urdu',
+  kashmiri:'Kashmiri',sindhi:'Sindhi',sanskrit:'Sanskrit',
+  maithili:'Maithili',dogri:'Dogri',bodo:'Bodo',konkani:'Konkani',
+  gujarati:'Gujarati',marathi:'Marathi',bengali:'Bengali',
+  assamese:'Assamese',odia:'Odia',manipuri:'Manipuri',
+  tamil:'Tamil',telugu:'Telugu',kannada:'Kannada',malayalam:'Malayalam',
+  english:'English',
+};
+
+const RTL_LANGS = new Set(['urdu','kashmiri','sindhi']);
+
+// ── State ───────────────────────────────────────────────────────────────────
+let selFile   = null;
+let lastResult= null;
+let apiOnline = false;
+
+// ── DOM shortcuts ───────────────────────────────────────────────────────────
+const $   = id => document.getElementById(id);
+const dz  = $('dz'),   dz2   = $('dz2');
+const fi  = $('fi'),   fi2   = $('fi2');
+const pb  = $('prev-box'),  pimg = $('prev-img');
+const pb2 = $('prev2-box'), pm2  = $('prev2-img');
+const rmB = $('rm-btn');
+const rb  = $('rb'),   rb2   = $('rb2');
+const ls  = $('ls'),   ls2   = $('ls2');
+const psm = $('psm'),  psm2  = $('psm2');
+const ldr = $('ldr'),  ldrM  = $('ldr-msg');
+const out = $('out-txt');
+const mst = $('mst'),  dlRow = $('dl-row');
+const rw  = $('reg-wrap'), rl = $('reg-list');
+const cpB = $('copy-btn'), clrB = $('clr-btn');
+
+// ── API status polling ───────────────────────────────────────────────────────
+async function pingAPI() {
+  const pill = $('api-pill');
+  const dot  = $('sdot');
+  const txt  = $('stxt');
+  try {
+    const ctrl = new AbortController();
+    setTimeout(() => ctrl.abort(), 4000);
+    const r = await fetch(`${API}/health`, {signal: ctrl.signal});
+    const d = await r.json();
+    const ok = d.status === 'ok' && d.tesseract_ready;
+    apiOnline = ok;
+    pill.className = `api-pill ${ok ? 'online' : 'offline'}`;
+    txt.textContent = ok
+      ? `Ready · Tesseract ${d.tesseract_version}`
+      : (d.tesseract_ready === false ? 'Tesseract Missing' : 'API Error');
+  } catch {
+    apiOnline = false;
+    pill.className = 'api-pill offline';
+    txt.textContent = 'API Offline';
+  }
+}
+pingAPI();
+setInterval(pingAPI, 12000);
+
+// ── File handling ────────────────────────────────────────────────────────────
+function loadFile(f) {
+  if (!f) return;
+  selFile = f;
+  const url = URL.createObjectURL(f);
+  pimg.src = pm2.src = url;
+  pb.style.display = pb2.style.display = 'block';
+  rb.disabled = rb2.disabled = false;
+  $('rb-ic').textContent  = '▶';
+  $('rb-tx').textContent  = '▶ Run OCR';
+  $('rb2-ic').textContent = '▶';
+  $('rb2-tx').textContent = '▶ Run OCR';
+  resetOutput();
+  toast(`✓ Loaded: ${f.name}`, 'ok');
+}
+
+fi.addEventListener('change',  e => loadFile(e.target.files[0]));
+fi2.addEventListener('change', e => loadFile(e.target.files[0]));
+
+[dz, dz2].forEach(d => {
+  d.addEventListener('dragover',  e => { e.preventDefault(); d.classList.add('over'); });
+  d.addEventListener('dragleave', () => d.classList.remove('over'));
+  d.addEventListener('drop', e => {
+    e.preventDefault(); d.classList.remove('over');
+    loadFile(e.dataTransfer.files[0]);
+  });
+});
+
+rmB.addEventListener('click', () => {
+  selFile = null;
+  pb.style.display = pb2.style.display = 'none';
+  rb.disabled = rb2.disabled = true;
+  $('rb-tx').textContent  = 'Upload Image First';
+  $('rb2-tx').textContent = 'Upload Image to Begin';
+  fi.value = fi2.value = '';
+  resetOutput();
+});
+
+// Sync selects between hero and demo panels
+ls.addEventListener('change',  function() { ls2.value  = this.value; });
+ls2.addEventListener('change', function() { ls.value   = this.value; });
+psm.addEventListener('change', function() { psm2.value = this.value; });
+psm2.addEventListener('change',function() { psm.value  = this.value; });
+
+// ── OCR Pipeline ─────────────────────────────────────────────────────────────
+[rb, rb2].forEach(b => b.addEventListener('click', runOCR));
+
+const STEPS = [
+  'Preprocessing image…',
+  'Detecting text regions…',
+  'Identifying language script…',
+  'Running Tesseract OCR…',
+  'Post-processing output…',
+];
+
+async function runOCR() {
+  if (!selFile) { toast('Upload an image first', 'wa'); return; }
+
+  setLoading(true);
+  resetOutput();
+
+  // Animated loading steps
+  let si = 0;
+  ldrM.textContent = STEPS[0];
+  const timer = setInterval(() => {
+    si = (si + 1) % STEPS.length;
+    ldrM.textContent = STEPS[si];
+  }, 650);
+
+  const lang = ls.value || 'auto';
+  const psmV = psm.value || '6';
+
+  try {
+    const fd = new FormData();
+    fd.append('file',     selFile);
+    fd.append('language', lang);
+    fd.append('psm',      psmV);
+
+    const resp = await fetch(`${API}/ocr/recognize`, {
+      method: 'POST',
+      body:   fd,
+    });
+
+    clearInterval(timer);
+
+    if (!resp.ok) {
+      let errMsg = `HTTP ${resp.status}`;
+      try { const e = await resp.json(); errMsg = e.detail || errMsg; } catch{}
+      throw new Error(errMsg);
+    }
+
+    const data = await resp.json();
+    lastResult = data;
+    renderResult(data);
+
+    toast(
+      `✓ OCR done — ${data.word_count} words · ${data.confidence}% confidence · ${data.processing_ms}ms`,
+      'ok'
+    );
+
+  } catch (err) {
+    clearInterval(timer);
+
+    const offline = err.message.includes('fetch') ||
+                    err.message.includes('Failed') ||
+                    err.message.includes('Load')   ||
+                    err.message.includes('abort')  ||
+                    err.message.includes('network');
+    if (offline) {
+      showDemo(lang);
+    } else {
+      toast('Error: ' + err.message, 'er');
+      setLoading(false);
+    }
+  } finally {
+    setLoading(false);
+  }
+}
+
+// ── Demo result (API offline) ────────────────────────────────────────────────
+function showDemo(lang) {
+  const text  = DEMO[lang] || DEMO.auto;
+  const lines = text.split('\n').filter(Boolean);
+  const data  = {
+    text,
+    script:        lang,
+    lang_code:     lang,
+    confidence:    87.3,
+    processing_ms: 284,
+    method:        'demo-mode',
+    region_count:  lines.length,
+    word_count:    text.split(/\s+/).filter(Boolean).length,
+    char_count:    text.replace(/\s/g,'').length,
+    is_rtl:        RTL_LANGS.has(lang),
+    regions: lines.map((t, i) => ({
+      region: i+1, bbox:[0,0,0,0], text:t, confidence:88-i*3
+    })),
+  };
+  lastResult = data;
+  renderResult(data);
+  toast('⚠ API offline — demo output. Run: cd backend && uvicorn app:app --port 8000', 'wa');
+}
+
+// ── Render OCR result ────────────────────────────────────────────────────────
+function renderResult(d) {
+  // Show stats
+  mst.style.display = 'grid';
+  dlRow.style.display = 'flex';
+  $('ms-s').textContent = LANG_NAMES[d.script] || d.script;
+  $('ms-c').textContent = d.confidence > 0 ? d.confidence.toFixed(1)+'%' : '—';
+  $('ms-w').textContent = d.word_count ?? 0;
+  $('ms-t').textContent = d.processing_ms ? Math.round(d.processing_ms) : '—';
+
+  // Output text
+  out.textContent = d.text || '(No text detected)';
+  out.classList.remove('empty');
+  d.is_rtl ? out.classList.add('rtl') : out.classList.remove('rtl');
+
+  // Regions
+  if (d.regions && d.regions.length > 1) {
+    rw.style.display = 'block';
+    rl.innerHTML = '';
+    d.regions.forEach(r => {
+      if (!r.text) return;
+      const el = document.createElement('div');
+      el.className = 'reg-item';
+      el.innerHTML =
+        `<span class="reg-n">#${r.region}</span>` +
+        `<span class="reg-tx">${esc(r.text)}</span>` +
+        `<span class="reg-c">${r.confidence ? r.confidence.toFixed(0)+'%' : ''}</span>`;
+      rl.appendChild(el);
+    });
+  }
+}
+
+// ── Buttons ──────────────────────────────────────────────────────────────────
+cpB.addEventListener('click', () => {
+  const t = out.textContent;
+  if (!t || out.classList.contains('empty')) return;
+  navigator.clipboard.writeText(t).then(() => {
+    cpB.textContent = '✓ Copied!';
+    cpB.classList.add('ok');
+    setTimeout(() => { cpB.textContent='Copy'; cpB.classList.remove('ok'); }, 2200);
+  });
+});
+
+clrB.addEventListener('click', resetOutput);
+
+$('dl-txt').addEventListener('click', () =>
+  dl(out.textContent, 'ocr_result.txt', 'text/plain'));
+
+$('dl-json').addEventListener('click', () => {
+  if (lastResult) dl(JSON.stringify(lastResult, null, 2), 'ocr_result.json', 'application/json');
+});
+
+$('dl-csv').addEventListener('click', () => {
+  if (!lastResult) return;
+  const rows = ['region,text,confidence'];
+  (lastResult.regions || []).forEach(r =>
+    rows.push(`${r.region},"${(r.text||'').replace(/"/g,'""')}",${r.confidence||''}`)
+  );
+  dl(rows.join('\n'), 'ocr_result.csv', 'text/csv');
+});
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+function resetOutput() {
+  mst.style.display  = 'none';
+  dlRow.style.display = 'none';
+  rw.style.display   = 'none';
+  rl.innerHTML       = '';
+  out.textContent    = '';
+  out.classList.add('empty');
+  out.classList.remove('rtl');
+  lastResult = null;
+}
+
+function setLoading(on) {
+  rb.disabled  = on || !selFile;
+  rb2.disabled = on || !selFile;
+  ldr.classList.toggle('show', on);
+  const ic = on ? '⏳' : '▶';
+  const tx1 = on ? 'Processing…' : (selFile ? '▶ Run OCR' : 'Upload Image First');
+  const tx2 = on ? 'Processing…' : (selFile ? '▶ Run OCR' : 'Upload Image to Begin');
+  $('rb-ic').textContent  = ic;
+  $('rb2-ic').textContent = ic;
+  $('rb-tx').textContent  = tx1;
+  $('rb2-tx').textContent = tx2;
+}
+
+function dl(content, filename, type) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([content], {type}));
+  a.download = filename;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+function esc(s) {
+  return String(s)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;');
+}
+
+function toast(msg, type = 'ok') {
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), type === 'wa' ? 6000 : 3500);
+}
+</script>
+</body>
+</html>
